@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#111318">
+    <meta name="description" content="Dein persönliches Meme-Soundboard">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+    <title>Soundboard</title>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="app-header">
+        <div>
+          <p class="eyebrow">Persönlicher Soundboard</p>
+          <h1>Soundboard</h1>
+        </div>
+        <button class="icon-button" id="theme-toggle" type="button" aria-label="Dunklen Modus aktivieren" title="Darstellung wechseln">☾</button>
+      </header>
+
+      <section class="access-card" id="access-view" aria-labelledby="access-title">
+        <p class="eyebrow">Privater Zugang</p>
+        <h2 id="access-title">Passwort eingeben</h2>
+        <form id="access-form">
+          <label class="sr-only" for="passcode">Passwort</label>
+          <input id="passcode" name="passcode" type="password" autocomplete="off" required>
+          <button class="primary-button" type="submit">Öffnen</button>
+        </form>
+        <p class="form-message" id="access-message" role="alert"></p>
+      </section>
+
+      <section id="board-view" class="board-view" hidden aria-labelledby="board-title">
+        <div class="board-heading">
+          <h2 id="board-title" class="sr-only">Soundboard</h2>
+          <span id="status-message" class="status-message" role="status"></span>
+        </div>
+        <button class="shuffle-button" id="shuffle-button" type="button">
+          <svg class="shuffle-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h2.2c2.9 0 4.1 2.2 5.5 5s2.6 5 5.5 5H20m0 0-3-3m3 3-3 3M4 17h2.2c1.1 0 2-.4 2.8-1.1M20 7h-2.8c-1.1 0-2 .4-2.8 1.1M20 7l-3-3m3 3-3 3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Shuffle</span>
+        </button>
+        <p class="loading" id="loading-message">Wird geladen …</p>
+        <div class="sound-grid" id="sound-grid" aria-live="polite"></div>
+      </section>
+    </main>
+    <script type="module" src="src/app.js"></script>
+  </body>
+</html>

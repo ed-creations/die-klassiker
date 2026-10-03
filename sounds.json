@@ -1,0 +1,7 @@
+{
+  "sounds": [
+    { "id": "sample-one", "title": "Beispiel Eins", "src": "audio/sample-one.wav", "image": "images/sample-one.svg" },
+    { "id": "sample-two", "title": "Beispiel Zwei", "src": "audio/sample-two.wav", "image": "images/sample-two.svg" },
+    { "id": "sample-three", "title": "Beispiel Drei", "src": "audio/sample-three.wav", "image": "images/sample-three.svg" }
+  ]
+}
