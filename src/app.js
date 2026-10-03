@@ -81,13 +81,25 @@ function renderSounds(sounds) {
     title.textContent = sound.title;
     button.append(title);
     button.setAttribute('aria-pressed', 'false');
-    button.addEventListener('pointerdown', () => {
+    let touchActivationHandled = false;
+    button.addEventListener('pointerdown', event => {
       button.classList.add('is-pressed');
       if ('vibrate' in navigator) navigator.vibrate(10);
+      if (event.pointerType === 'touch' || event.pointerType === 'pen') {
+        event.preventDefault();
+        touchActivationHandled = true;
+        playWithFeedback(() => controller.play(sound.id));
+      }
     });
     button.addEventListener('pointerup', () => button.classList.remove('is-pressed'));
     button.addEventListener('pointerleave', () => button.classList.remove('is-pressed'));
-    button.addEventListener('click', () => playWithFeedback(() => controller.play(sound.id)));
+    button.addEventListener('click', () => {
+      if (touchActivationHandled) {
+        touchActivationHandled = false;
+        return;
+      }
+      playWithFeedback(() => controller.play(sound.id));
+    });
     grid.append(button);
   }
 }

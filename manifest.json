@@ -1,6 +1,6 @@
 {
-  "name": "Persönliches Soundboard",
-  "short_name": "Soundboard",
+  "name": "Klassiker auf Knopfdruck",
+  "short_name": "Das Soundboard",
   "lang": "de",
   "start_url": "./",
   "display": "standalone",

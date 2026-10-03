@@ -10,6 +10,7 @@ export class AudioController {
       const element = audioFactory();
       element.preload = 'auto';
       element.src = sound.src;
+      element.load?.();
       element.addEventListener('ended', () => this.finish(sound.id));
       element.addEventListener('error', () => this.fail(sound.id));
       this.audio.set(sound.id, element);
