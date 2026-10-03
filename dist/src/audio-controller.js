@@ -1,20 +1,28 @@
+function defaultContext() {
+  const Context = globalThis.AudioContext || globalThis.webkitAudioContext;
+  if (!Context) throw new Error('Web Audio is not supported in this browser.');
+  return new Context();
+}
+
 export class AudioController {
-  constructor(sounds, { audioFactory = () => new Audio(), random = Math.random } = {}) {
+  constructor(sounds, { contextFactory = defaultContext, fetchImpl = fetch, random = Math.random } = {}) {
     this.sounds = sounds;
     this.random = random;
+    this.context = contextFactory();
     this.activeId = null;
+    this.activeSource = null;
     this.listeners = new Set();
-    this.audio = new Map();
+    this.buffers = new Map();
+    this.ready = this.preload(fetchImpl);
+  }
 
-    for (const sound of sounds) {
-      const element = audioFactory();
-      element.preload = 'auto';
-      element.src = sound.src;
-      element.load?.();
-      element.addEventListener('ended', () => this.finish(sound.id));
-      element.addEventListener('error', () => this.fail(sound.id));
-      this.audio.set(sound.id, element);
-    }
+  async preload(fetchImpl) {
+    await Promise.all(this.sounds.map(async sound => {
+      const response = await fetchImpl(sound.src);
+      if (!response.ok) throw new Error(`Sound could not be loaded: ${sound.id}`);
+      const buffer = await response.arrayBuffer();
+      this.buffers.set(sound.id, await this.context.decodeAudioData(buffer));
+    }));
   }
 
   subscribe(listener) {
@@ -27,26 +35,33 @@ export class AudioController {
   }
 
   stop() {
-    if (!this.activeId) return;
-    const active = this.audio.get(this.activeId);
-    active.pause();
-    active.currentTime = 0;
-    this.emit({ type: 'stopped', id: this.activeId });
+    if (!this.activeSource) return;
+    const id = this.activeId;
+    this.activeSource.onended = null;
+    try { this.activeSource.stop(0); } catch {}
+    this.activeSource.disconnect?.();
+    this.activeSource = null;
     this.activeId = null;
+    this.emit({ type: 'stopped', id });
   }
 
   async play(id) {
-    const selected = this.audio.get(id);
-    if (!selected) throw new Error(`Unknown sound: ${id}`);
-    if (this.activeId) this.stop();
+    // Clear the previous sound immediately, before any iOS audio-context wait.
+    this.stop();
+    const resume = this.context.resume();
+    if (!this.buffers.has(id)) await this.ready;
+    const buffer = this.buffers.get(id);
+    if (!buffer) throw new Error(`Unknown sound: ${id}`);
+    await resume;
+
+    const source = this.context.createBufferSource();
+    source.buffer = buffer;
+    source.connect(this.context.destination);
+    source.onended = () => this.finish(id, source);
     this.activeId = id;
+    this.activeSource = source;
     this.emit({ type: 'playing', id });
-    try {
-      await selected.play();
-    } catch (error) {
-      this.fail(id, error);
-      throw error;
-    }
+    source.start(0);
   }
 
   playRandom() {
@@ -55,14 +70,16 @@ export class AudioController {
     return this.play(this.sounds[index].id);
   }
 
-  finish(id) {
-    if (this.activeId !== id) return;
+  finish(id, source) {
+    if (this.activeSource !== source) return;
+    this.activeSource = null;
     this.activeId = null;
+    source.disconnect?.();
     this.emit({ type: 'ended', id });
   }
 
   fail(id, error) {
-    if (this.activeId === id) this.activeId = null;
+    if (this.activeId === id) this.stop();
     this.emit({ type: 'error', id, error });
   }
 }
