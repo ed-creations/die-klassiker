@@ -1,7 +1,24 @@
 {
   "sounds": [
-    { "id": "sample-one", "title": "Beispiel Eins", "src": "audio/sample-one.wav", "image": "images/sample-one.svg" },
-    { "id": "sample-two", "title": "Beispiel Zwei", "src": "audio/sample-two.wav", "image": "images/sample-two.svg" },
-    { "id": "sample-three", "title": "Beispiel Drei", "src": "audio/sample-three.wav", "image": "images/sample-three.svg" }
+    { "id": "big-tasty-kritiker", "title": "Big Tasty Kritiker", "src": "audio/big-tasty-kritiker.mp3", "image": "images/big-tasty-kritiker.png" },
+    { "id": "cola-zero", "title": "Cola Zero", "src": "audio/cola-zero.mp3", "image": "images/cola-zero.png" },
+    { "id": "feuerball", "title": "Feuerball", "src": "audio/feuerball.mp3", "image": "images/feuerball.png" },
+    { "id": "haben-wir-noch-pepps", "title": "Haben wir noch Pepps?", "src": "audio/haben-wir-noch-pepps.mp3", "image": "images/haben-wir-noch-pepps.png" },
+    { "id": "habicht-hat-zwei-h", "title": "Habicht hat zwei H", "src": "audio/habicht-hat-zwei-h.mp3", "image": "images/habicht.png" },
+    { "id": "heike", "title": "Heike", "src": "audio/heike.mp3", "image": "images/heike.png" },
+    { "id": "muskatnuss-herr-mueller", "title": "Muskatnuss Herr Müller", "src": "audio/muskatnuss-herr-mueller.mp3", "image": "images/muskatnuss-herr-mueller.png" },
+    { "id": "nein-doch-oh", "title": "Nein! Doch! Ohh!", "src": "audio/nein-doch-oh.mp3", "image": "images/nein-doch-oh.png" },
+    { "id": "noch-was-essen", "title": "Möchtest du noch was essen?", "src": "audio/noch-was-essen.mp3", "image": "images/noch-was-essen.png" },
+    { "id": "piss-dich-alde", "title": "Piss dich Alde", "src": "audio/piss-dich-alde.mp3", "image": "images/piss-dich-alde.png" },
+    { "id": "privat-mit-der-polizei", "title": "Privat mit der Polizei", "src": "audio/privat-mit-der-polizei.mp3", "image": "images/privat-mit-der-polizei.png" },
+    { "id": "rüdiger", "title": "Rüdiger", "src": "audio/rüdiger.mp3", "image": "images/rüdiger.png" },
+    { "id": "saft-oder-cola", "title": "Saft oder Cola", "src": "audio/saft-oder-cola.mp3", "image": "images/saft-oder-cola.png" },
+    { "id": "schinkennudeln", "title": "Schinkennudeln", "src": "audio/schinkennudeln.mp3", "image": "images/schinkennudeln.png" },
+    { "id": "schmackofatz", "title": "Schmackofatz", "src": "audio/schmackofatz.mp3", "image": "images/schmackofatz.png" },
+    { "id": "sie-wichser", "title": "Sie Wichser", "src": "audio/sie-wichser.mp3", "image": "images/sie-wichser.png" },
+    { "id": "was-ist-denn-hier-los", "title": "Was ist denn hier los?", "src": "audio/was-ist-denn-hier-los.mp3", "image": "images/was-ist-denn-hier-los.png" },
+    { "id": "was-ist-denn-mit-karsten-los", "title": "Was ist denn mit Carsten los?", "src": "audio/was-ist-denn-mit-karsten-los.mp3", "image": "images/was-ist-denn-mit-karsten-los.png" },
+    { "id": "was-machen-sachen", "title": "Was machen Sachen?", "src": "audio/was-machen-sachen.mp3", "image": "images/was-machen-sachen.png" },
+    { "id": "was-wird", "title": "Was wird, was wird", "src": "audio/was-wird.mp3", "image": "images/was-wird.png" }
   ]
 }
