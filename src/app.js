@@ -3,7 +3,7 @@ import { createAccessGate } from './access.js';
 import { AudioController } from './audio-controller.js';
 import { createThemeController } from './theme.js';
 
-const PASSCODE = 'memes';
+const PASSCODE = 'psggegenpsg';
 const accessView = document.querySelector('#access-view');
 const boardView = document.querySelector('#board-view');
 const accessForm = document.querySelector('#access-form');
@@ -81,23 +81,14 @@ function renderSounds(sounds) {
     title.textContent = sound.title;
     button.append(title);
     button.setAttribute('aria-pressed', 'false');
-    let touchActivationHandled = false;
-    button.addEventListener('pointerdown', event => {
+    button.addEventListener('pointerdown', () => {
       button.classList.add('is-pressed');
-      if ('vibrate' in navigator) navigator.vibrate(10);
-      if (event.pointerType === 'touch' || event.pointerType === 'pen') {
-        event.preventDefault();
-        touchActivationHandled = true;
-        playWithFeedback(() => controller.play(sound.id));
-      }
     });
     button.addEventListener('pointerup', () => button.classList.remove('is-pressed'));
+    button.addEventListener('pointercancel', () => button.classList.remove('is-pressed'));
     button.addEventListener('pointerleave', () => button.classList.remove('is-pressed'));
     button.addEventListener('click', () => {
-      if (touchActivationHandled) {
-        touchActivationHandled = false;
-        return;
-      }
+      if ('vibrate' in navigator) navigator.vibrate(10);
       playWithFeedback(() => controller.play(sound.id));
     });
     grid.append(button);

@@ -7,15 +7,21 @@ const css = await readFile(new URL('../styles.css', import.meta.url), 'utf8');
 const app = await readFile(new URL('../src/app.js', import.meta.url), 'utf8');
 
 test('interface contains German access and Shuffle copy', () => {
-  assert.match(html, /Passwort eingeben/);
+  assert.match(html, /Das einzig wahre FIFA-Match:/);
   assert.match(html, />Shuffle</);
   assert.match(html, /lang="de"/);
 });
 
 test('interface defines an adaptive grid and accessible playback state', () => {
   assert.match(css, /grid-template-columns:\s*repeat\(auto-fit/);
+  assert.match(css, /min-height:\s*2\.5em/);
   assert.match(app, /aria-pressed/);
   assert.match(app, /navigator\.vibrate/);
+});
+
+test('sound playback waits for a completed click', () => {
+  assert.match(app, /pointerdown', \(\) => \{\s*button\.classList\.add\('is-pressed'\);\s*\}\)/);
+  assert.match(app, /addEventListener\('click'[\s\S]*controller\.play/);
 });
 
 test('sound entries can render thumbnails', () => {
