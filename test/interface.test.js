@@ -14,7 +14,7 @@ test('interface contains German access and Shuffle copy', () => {
 
 test('interface defines an adaptive grid and accessible playback state', () => {
   assert.match(css, /grid-template-columns:\s*repeat\(auto-fit/);
-  assert.match(css, /min-height:\s*2\.5em/);
+  assert.match(css, /min-height:\s*3\.6em/);
   assert.match(app, /aria-pressed/);
   assert.match(app, /navigator\.vibrate/);
 });

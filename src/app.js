@@ -81,13 +81,44 @@ function renderSounds(sounds) {
     title.textContent = sound.title;
     button.append(title);
     button.setAttribute('aria-pressed', 'false');
+    let pointerStart = null;
+    let suppressClick = false;
     button.addEventListener('pointerdown', () => {
       button.classList.add('is-pressed');
     });
+    button.addEventListener('pointerdown', event => {
+      // A mobile browser may synthesize a click after a touch scroll.
+      // Remember where the gesture started so that scrolling cannot play a sound.
+      pointerStart = { id: event.pointerId, x: event.clientX, y: event.clientY };
+      suppressClick = false;
+    });
+    button.addEventListener('pointermove', event => {
+      if (!pointerStart || event.pointerId !== pointerStart.id) return;
+      const movedX = event.clientX - pointerStart.x;
+      const movedY = event.clientY - pointerStart.y;
+      if (Math.hypot(movedX, movedY) > 10) {
+        suppressClick = true;
+        button.classList.remove('is-pressed');
+      }
+    });
     button.addEventListener('pointerup', () => button.classList.remove('is-pressed'));
-    button.addEventListener('pointercancel', () => button.classList.remove('is-pressed'));
+    button.addEventListener('pointerup', event => {
+      if (pointerStart?.id === event.pointerId) pointerStart = null;
+    });
+    button.addEventListener('pointercancel', event => {
+      if (pointerStart?.id === event.pointerId) {
+        pointerStart = null;
+        suppressClick = true;
+      }
+      button.classList.remove('is-pressed');
+    });
     button.addEventListener('pointerleave', () => button.classList.remove('is-pressed'));
-    button.addEventListener('click', () => {
+    button.addEventListener('click', event => {
+      if (suppressClick) {
+        suppressClick = false;
+        event.preventDefault();
+        return;
+      }
       if ('vibrate' in navigator) navigator.vibrate(10);
       playWithFeedback(() => controller.play(sound.id));
     });
