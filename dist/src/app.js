@@ -1,20 +1,14 @@
 import { loadCatalog } from './catalog.js';
-import { createAccessGate } from './access.js';
 import { AudioController } from './audio-controller.js';
 import { createThemeController } from './theme.js';
 
-const PASSCODE = 'psggegenpsg';
-const accessView = document.querySelector('#access-view');
 const boardView = document.querySelector('#board-view');
-const accessForm = document.querySelector('#access-form');
-const accessMessage = document.querySelector('#access-message');
 const grid = document.querySelector('#sound-grid');
 const shuffleButton = document.querySelector('#shuffle-button');
 const loadingMessage = document.querySelector('#loading-message');
 const statusMessage = document.querySelector('#status-message');
 const themeToggle = document.querySelector('#theme-toggle');
 const theme = createThemeController();
-const access = createAccessGate({ storage: localStorage, passcode: PASSCODE });
 let controller;
 
 theme.initialize();
@@ -27,24 +21,7 @@ function updateThemeButton(current) {
   themeToggle.setAttribute('aria-label', dark ? 'Hellen Modus aktivieren' : 'Dunklen Modus aktivieren');
 }
 
-function showBoard() {
-  accessView.hidden = true;
-  boardView.hidden = false;
-  initializeBoard();
-}
-
-accessForm.addEventListener('submit', event => {
-  event.preventDefault();
-  const value = new FormData(accessForm).get('passcode');
-  if (access.verify(value)) {
-    accessMessage.textContent = '';
-    showBoard();
-  } else {
-    accessMessage.textContent = 'Passwort ungültig';
-  }
-});
-
-if (access.isRemembered()) showBoard();
+initializeBoard();
 
 async function initializeBoard() {
   if (controller) return;

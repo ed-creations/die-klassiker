@@ -6,8 +6,10 @@ const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
 const css = await readFile(new URL('../styles.css', import.meta.url), 'utf8');
 const app = await readFile(new URL('../src/app.js', import.meta.url), 'utf8');
 
-test('interface contains German access and Shuffle copy', () => {
-  assert.match(html, /Das einzig wahre FIFA-Match:/);
+test('interface opens directly to the soundboard', () => {
+  assert.doesNotMatch(html, /id="access-form"/);
+  assert.doesNotMatch(html, /type="password"/);
+  assert.match(html, /id="board-view" class="board-view" aria-labelledby/);
   assert.match(html, />Shuffle</);
   assert.match(html, /lang="de"/);
 });
